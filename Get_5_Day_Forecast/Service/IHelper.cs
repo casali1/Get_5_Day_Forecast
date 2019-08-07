@@ -9,5 +9,9 @@ namespace Get_5_Day_Forecast.Service
     public interface IHelper
     {
         List<AvgDayForecast> CalculateAvgTemps(List<DayForecast> list);
+
+        bool IsZipCode(string zipCode);
+
+        bool IsCity(string city);
     }
 }

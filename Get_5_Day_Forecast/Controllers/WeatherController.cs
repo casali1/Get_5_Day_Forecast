@@ -24,16 +24,26 @@ namespace Get_5_Day_Forecast.Controllers
             _helper = helper;
         }
 
-        [Route("{city}")]
-        public async Task<ActionResult> City(string city)
+        [Route("{input}")]
+        public async Task<ActionResult> Input(string input)
         {
             using (var client = new HttpClient())
             {
                 try
                 {
                     client.BaseAddress = new Uri("http://api.openweathermap.org");
-                    //var response = await client.GetAsync($"/data/2.5/weather?q={city}&appid=f99e1e3ccd770a8a43db5680342edd6a&units=imperial");
-                    var response = await client.GetAsync($"/data/2.5/forecast?q={city}&mode=xml&appid=f99e1e3ccd770a8a43db5680342edd6a&units=imperial&days=5");
+
+                    var isValidZip = _helper.IsZipCode(input);
+
+                    var isCity = _helper.IsCity(input);
+
+                    HttpResponseMessage response = new HttpResponseMessage();
+
+                    if (isValidZip)
+                        response = await client.GetAsync($"/data/2.5/forecast?zip={input}&mode=xml&appid=f99e1e3ccd770a8a43db5680342edd6a&units=imperial&days=5");
+
+                    if (isCity)
+                        response = await client.GetAsync($"/data/2.5/forecast?q={input}&mode=xml&appid=f99e1e3ccd770a8a43db5680342edd6a&units=imperial&days=5");
 
                     response.EnsureSuccessStatusCode();
 
@@ -88,16 +98,13 @@ namespace Get_5_Day_Forecast.Controllers
                         }
                     }
 
-
                     var avglist = _helper.CalculateAvgTemps(list);
 
-
-                    return CreatedAtAction(nameof(city), avglist);
+                    return CreatedAtAction(nameof(input), avglist);
                 }
-                catch (HttpRequestException httpRequestException)
+                catch (Exception e)
                 {
-                    throw new Exception();
-                    //return View($"Error getting weather from OpenWeather: {httpRequestException.Message}");
+                    throw e;
                 }
             }
         }
