@@ -92,7 +92,7 @@ namespace Get_5_Day_Forecast.Controllers
                     var avglist = _helper.CalculateAvgTemps(list);
 
 
-                    return NotFound("Role not found");
+                    return CreatedAtAction(nameof(city), avglist);
                 }
                 catch (HttpRequestException httpRequestException)
                 {
