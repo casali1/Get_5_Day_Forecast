@@ -18,6 +18,7 @@ namespace Get_5_Day_Forecast.Controllers
         public const decimal DataPoints = 9999;
         public const string TimeNodes = "/weatherdata/forecast";
         public const string TempNodes = "temperature";
+        public const string OpenWeatherURL = "http://api.openweathermap.org";
 
         public WeatherController(IHelper helper)
         {
@@ -31,7 +32,7 @@ namespace Get_5_Day_Forecast.Controllers
             {
                 try
                 {
-                    client.BaseAddress = new Uri("http://api.openweathermap.org");
+                    client.BaseAddress = new Uri(OpenWeatherURL);
 
                     var isValidZip = _helper.IsZipCode(input);
                     var isCity = _helper.IsCity(input);
@@ -50,10 +51,10 @@ namespace Get_5_Day_Forecast.Controllers
                     var doc = new XmlDocument();
                     doc.LoadXml(weatherXML_Doc);
                     var root = doc.DocumentElement;
-                    var nodes = root.SelectNodes(TempNodes); // You can also use XPath here
+                    var nodes = root.SelectNodes(TimeNodes); // You can also use XPath here
 
                     var list = new List<DayForecast>();
-                    foreach (var node in nodes)
+                    foreach (XmlNode node in nodes)
                     {
                         for (int i = 0; i <= DataPoints; i++)
                         {
