@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Get_5_Day_Forecast.Model;
 
 namespace Get_5_Day_Forecast.Service
@@ -50,10 +48,10 @@ namespace Get_5_Day_Forecast.Service
 
         public bool IsZipCode(string zipCode)
         {
-            var _ZipRegEx = @"^\d{5}(?:[-\s]\d{4})?$";
+            var _zipRegEx = @"^\d{5}(?:[-\s]\d{4})?$";
 
             var validZipCode = true;
-            if (!Regex.Match(zipCode, _ZipRegEx).Success)
+            if (!Regex.Match(zipCode, _zipRegEx).Success)
             {
                 validZipCode = false;
             }
