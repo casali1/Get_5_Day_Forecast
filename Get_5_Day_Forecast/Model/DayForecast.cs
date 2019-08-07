@@ -9,7 +9,7 @@ namespace Get_5_Day_Forecast.Model
     {
         public int index { get; set; }
         public DateTime date { get; set; }
-        public int maxTemp { get; set; }
-        public int minTemp { get; set; }
+        public decimal maxTemp { get; set; }
+        public decimal minTemp { get; set; }
     }
 }

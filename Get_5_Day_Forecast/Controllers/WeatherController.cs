@@ -44,25 +44,35 @@ namespace Get_5_Day_Forecast.Controllers
                     {
                         for (int i = 0; i <= 9999; i++)
                         {
-                            if (node.ChildNodes[i].HasChildNodes)
+                            var hasNode = node.ChildNodes[i];
+                            if (hasNode != null)
                             {
-
+                                var maxTemp = 0M;
+                                var minTemp = 0M;
                                 for (int j = 0; j <= 9999; j++)
                                 {
-                                    var childOfAChild_Name = node.ChildNodes[i].ChildNodes[j].Name;
-
-                                    if(childOfAChild_Name == "temperature")
+                                    var hasChildNode = node.ChildNodes[i].ChildNodes[j];
+                                    if (hasChildNode != null)
                                     {
+                                        var childOfAChild_Name = node.ChildNodes[i].ChildNodes[j].Name;
 
-
+                                        if (childOfAChild_Name == "temperature")
+                                        {
+                                            maxTemp = Convert.ToDecimal(node.ChildNodes[i].ChildNodes[j].Attributes["max"].Value);
+                                            minTemp = Convert.ToDecimal(node.ChildNodes[i].ChildNodes[j].Attributes["min"].Value);
+                                            break;
+                                        }
                                     }
-
+                                    else
+                                        break;
                                 }
 
                                 list.Add(new DayForecast
                                 {
                                     index = i,
-                                    date = Convert.ToDateTime(node.ChildNodes[i].Attributes["from"].Value)
+                                    date = Convert.ToDateTime(node.ChildNodes[i].Attributes["from"].Value),
+                                    maxTemp = maxTemp,
+                                    minTemp = minTemp
                                 });
                             }
                             else
@@ -70,46 +80,11 @@ namespace Get_5_Day_Forecast.Controllers
                         }
                     }
 
-                    nodes = root.SelectNodes("/weatherdata/forecast/time/temperature");
 
-                    foreach (XmlNode node in nodes)
-                    {
-                        for (int i = 0; i <= list.Count; i++)
-                        {
-                            var nodeDiscovered = node.ChildNodes[i];
-
-                            if (nodeDiscovered != null)
-                            {
-                                list.Add(new DayForecast
-                                {
-                                    maxTemp = Convert.ToInt32(node.ChildNodes[i].Attributes["max"].Value),
-                                    minTemp = Convert.ToInt32(node.ChildNodes[i].Attributes["min"].Value)
-                                });
-                            }
-                            else
-                                break;
-                        }
-
-                    }
+                    List<int> days = list.Select(x => x.date.Day).Distinct().ToList();
 
 
-
-
-
-                        //var rawWeather = JsonConvert.DeserializeObject<OpenWeatherResponse>(stringResult);
-
-                        //var temp = rawWeather.Main.Temp;
-                        //var sum = string.Join(",", rawWeather.Weather.Select(x => x.Main));
-                        //var c = rawWeather.Name;
-
-
-                        //return View(new Data
-                        //{
-                        //    Temp = rawWeather.Main.Temp,
-                        //    Summary = string.Join(",", rawWeather.Weather.Select(x => x.Main)),
-                        //    City = rawWeather.Name
-                        //});
-                        return NotFound("Role not found");
+                    return NotFound("Role not found");
                 }
                 catch (HttpRequestException httpRequestException)
                 {
