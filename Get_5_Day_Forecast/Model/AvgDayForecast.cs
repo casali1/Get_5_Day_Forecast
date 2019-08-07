@@ -7,8 +7,10 @@ namespace Get_5_Day_Forecast.Model
 {
     public class AvgDayForecast
     {
-        public DateTime date { get; set; }
-        public int avgMaxTemp { get; set; }
-        public int avgMinTemp { get; set; }
+        public string date { get; set; }
+        public decimal avgMaxTemp { get; set; }
+        public decimal avgMinTemp { get; set; }
+
+
     }
 }
