@@ -19,6 +19,9 @@ namespace Get_5_Day_Forecast.Controllers
         public const string TimeNodes = "/weatherdata/forecast";
         public const string TempNodes = "temperature";
         public const string OpenWeatherURL = "http://api.openweathermap.org";
+        public const string DateNode = "from";
+        public const string MaxTempNode = "max";
+        public const string MinTempNode = "min";
 
         public WeatherController(IHelper helper)
         {
@@ -72,8 +75,8 @@ namespace Get_5_Day_Forecast.Controllers
 
                                         if (childOfAChild_Name == TempNodes)
                                         {
-                                            maxTemp = Convert.ToDecimal(node.ChildNodes[i].ChildNodes[j].Attributes["max"].Value);
-                                            minTemp = Convert.ToDecimal(node.ChildNodes[i].ChildNodes[j].Attributes["min"].Value);
+                                            maxTemp = Convert.ToDecimal(node.ChildNodes[i].ChildNodes[j].Attributes[MaxTempNode].Value);
+                                            minTemp = Convert.ToDecimal(node.ChildNodes[i].ChildNodes[j].Attributes[MinTempNode].Value);
                                             break;
                                         }
                                     }
@@ -84,7 +87,7 @@ namespace Get_5_Day_Forecast.Controllers
                                 list.Add(new DayForecast
                                 {
                                     index = i,
-                                    date = Convert.ToDateTime(node.ChildNodes[i].Attributes["from"].Value),
+                                    date = Convert.ToDateTime(node.ChildNodes[i].Attributes[DateNode].Value),
                                     maxTemp = maxTemp,
                                     minTemp = minTemp
                                 });
@@ -94,9 +97,9 @@ namespace Get_5_Day_Forecast.Controllers
                         }
                     }
 
-                    var avglist = _helper.CalculateAvgTemps(list);
+                    var avgTempList = _helper.CalculateAvgTemps(list);
 
-                    return CreatedAtAction(nameof(input), avglist);
+                    return CreatedAtAction(nameof(input), avgTempList);
                 }
                 catch (Exception e)
                 {
