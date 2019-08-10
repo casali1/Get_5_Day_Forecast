@@ -8,7 +8,7 @@ namespace Get_5_Day_Forecast.Service
 {
     public interface IHelper
     {
-        List<AvgDayForecast> CalculateAvgTemps(List<DayForecast> list);
+        List<AvgDayForecastDTO> CalculateAvgTemps(List<DayForecast> list, string input);
 
         bool IsZipCode(string zipCode);
 

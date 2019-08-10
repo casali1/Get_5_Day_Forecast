@@ -15,7 +15,7 @@ namespace Get_5_Day_Forecast.Controllers
     public class WeatherController : ControllerBase
     {
         IHelper _helper;
-        public const decimal DataPoints = 9999;
+        public const int DataPoints = 9999;
         public const string TimeNodes = "/weatherdata/forecast";
         public const string TempNodes = "temperature";
         public const string OpenWeatherURL = "http://api.openweathermap.org";
@@ -55,8 +55,8 @@ namespace Get_5_Day_Forecast.Controllers
                     doc.LoadXml(weatherXML_Doc);
                     var root = doc.DocumentElement;
                     var nodes = root.SelectNodes(TimeNodes); // You can also use XPath here
-
                     var list = new List<DayForecast>();
+
                     foreach (XmlNode node in nodes)
                     {
                         for (int i = 0; i <= DataPoints; i++)
@@ -97,7 +97,7 @@ namespace Get_5_Day_Forecast.Controllers
                         }
                     }
 
-                    var avgTempList = _helper.CalculateAvgTemps(list);
+                    var avgTempList = _helper.CalculateAvgTemps(list, input);
 
                     return CreatedAtAction(nameof(input), avgTempList);
                 }

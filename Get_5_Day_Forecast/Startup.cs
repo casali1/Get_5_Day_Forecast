@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Get_5_Day_Forecast.Service;
+using Get_5_Day_Forecast.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Get_5_Day_Forecast
 {
@@ -29,6 +31,8 @@ namespace Get_5_Day_Forecast
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<IHelper, Helper>();
+
+            services.AddDbContext<WeatherContext>(op => op.UseSqlServer(Configuration["ConnectionString:ForecastDB"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
