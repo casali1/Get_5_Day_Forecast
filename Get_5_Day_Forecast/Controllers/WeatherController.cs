@@ -87,10 +87,10 @@ namespace Get_5_Day_Forecast.Controllers
 
                                 list.Add(new DayForecast
                                 {
-                                    index = i,
-                                    date = Convert.ToDateTime(node.ChildNodes[i].Attributes[DateNode].Value),
-                                    maxTemp = maxTemp,
-                                    minTemp = minTemp
+                                    Index = i,
+                                    Date = Convert.ToDateTime(node.ChildNodes[i].Attributes[DateNode].Value),
+                                    MaxTemp = maxTemp,
+                                    MinTemp = minTemp
                                 });
                             }
                             else

@@ -26,19 +26,19 @@ namespace Get_5_Day_Forecast.Service
             var dateString = string.Empty;
             var tempCount = 0;
 
-            List<int> days = list.Select(x => x.date.Day).Distinct().ToList();
+            List<int> days = list.Select(x => x.Date.Day).Distinct().ToList();
             if (days.Count > 5) days.RemoveAt(5);
 
             foreach (var day in days)
             {
-                var tempList = list.Where(x => x.date.Day == day);
+                var tempList = list.Where(x => x.Date.Day == day);
 
                 foreach (var record in tempList)
                 {
-                    totalMax = totalMax + record.maxTemp;
-                    totalMIn = totalMIn + record.minTemp;
+                    totalMax = totalMax + record.MaxTemp;
+                    totalMIn = totalMIn + record.MinTemp;
                     tempCount++;
-                    dateString = record.date.Date.ToString();
+                    dateString = record.Date.Date.ToString();
                 }
 
                 avgMaxTemp = totalMax / tempCount;
