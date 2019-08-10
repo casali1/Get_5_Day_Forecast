@@ -90,14 +90,19 @@ namespace UnitTest.ServiceTest
 
             var index = Environment.CurrentDirectory.IndexOf("UnitTest");
 
-            var envtDirectory = Environment.CurrentDirectory;
-            var currentDirectory = envtDirectory.Substring(0, index);
+            var currentDirectory = Environment.CurrentDirectory.Substring(0, index);
 
             var path = Path.Combine(currentDirectory, @"UnitTest\\TestFiles\\WeatherData.xml");
 
             var weatherData = XElement.Load(path);
 
-            var list = helper.RetrieveDataFromXML("");
+            var list = helper.RetrieveDataFromXML(weatherData.ToString());
+
+            Assert.AreEqual(3, list.Count);
+
+            Assert.AreEqual(7, Convert.ToDateTime(list[2].Date).Day);
+            Assert.AreEqual(70.29M, list[2].MaxTemp);
+            Assert.AreEqual(68.34M, list[2].MinTemp);
         }
     }
 }
