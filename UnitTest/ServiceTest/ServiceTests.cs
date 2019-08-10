@@ -5,12 +5,42 @@ using System.Collections.Generic;
 using Get_5_Day_Forecast.Repository;
 using Get_5_Day_Forecast.Model;
 using Get_5_Day_Forecast.Service;
+using System.Xml.Linq;
+using System.IO;
 
 namespace UnitTest.ServiceTest
 {
     [TestClass]
     public class ServiceTests
     {
+        [TestMethod]
+        public void TestIsValidZip()
+        {
+            var mock = new Mock<IForecastRepository>();
+            mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
+            var helper = new Helper(mock.Object);
+
+            var isValid = helper.IsValidZip("80202");
+            Assert.IsTrue(isValid);
+
+            isValid = helper.IsValidZip("Denver");
+            Assert.IsFalse(isValid);
+        }
+
+        [TestMethod]
+        public void TestIsValidCity()
+        {
+            var mock = new Mock<IForecastRepository>();
+            mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
+            var helper = new Helper(mock.Object);
+
+            var isValid = helper.IsValidCity("Miami-Dade");
+            Assert.IsTrue(isValid);
+
+            isValid = helper.IsValidCity("90210");
+            Assert.IsFalse(isValid);
+        }
+
         [TestMethod]
         public void TestCalculateAvgTemps()
         {
@@ -52,32 +82,22 @@ namespace UnitTest.ServiceTest
         }
 
         [TestMethod]
-        public void TestIsCity()
+        public void TestRetrieveDataFromXML()
         {
             var mock = new Mock<IForecastRepository>();
             mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
             var helper = new Helper(mock.Object);
 
-            var isValid = helper.IsCity("Miami-Dade");
-            Assert.IsTrue(isValid);
+            var index = Environment.CurrentDirectory.IndexOf("UnitTest");
 
-            isValid = helper.IsCity("90210");
-            Assert.IsFalse(isValid);
+            var envtDirectory = Environment.CurrentDirectory;
+            var currentDirectory = envtDirectory.Substring(0, index);
+
+            var path = Path.Combine(currentDirectory, @"UnitTest\\TestFiles\\WeatherData.xml");
+
+            var weatherData = XElement.Load(path);
+
+            var list = helper.RetrieveDataFromXML("");
         }
-
-        [TestMethod]
-        public void TestIsZip()
-        {
-            var mock = new Mock<IForecastRepository>();
-            mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
-            var helper = new Helper(mock.Object);
-
-            var isValid = helper.IsCity("80202");
-            Assert.IsTrue(isValid);
-
-            isValid = helper.IsZipCode("Denver");
-            Assert.IsFalse(isValid);           
-        }
-
     }
 }

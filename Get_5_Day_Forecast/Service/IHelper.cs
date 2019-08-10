@@ -8,10 +8,12 @@ namespace Get_5_Day_Forecast.Service
 {
     public interface IHelper
     {
-        List<AvgDayForecastDTO> CalculateAvgTemps(List<DayForecast> list, string input);
+        bool IsValidZip(string zipCode);
 
-        bool IsZipCode(string zipCode);
+        bool IsValidCity(string city);
 
-        bool IsCity(string city);
+        List<DayForecast> RetrieveDataFromXML(string weatherData);
+
+        List<AvgDayForecastDTO> CalculateAvgTemps(List<DayForecast> list, string input);     
     }
 }
