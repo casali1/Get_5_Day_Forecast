@@ -57,6 +57,7 @@ namespace Get_5_Day_Forecast.Controllers
                     var nodes = root.SelectNodes(TimeNodes); // You can also use XPath here
                     var list = new List<DayForecast>();
 
+                    //Retrieve data from XML.
                     foreach (XmlNode node in nodes)
                     {
                         for (int i = 0; i <= DataPoints; i++)
