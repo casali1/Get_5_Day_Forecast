@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Get_5_Day_Forecast.Model;
+using Get_5_Day_Forecast.Repository;
 
 namespace Get_5_Day_Forecast.Service
 {
     public class Helper : IHelper
     {
+        IForecastRepository _forecastRepository;
+
+        public Helper(IForecastRepository forecastRepository)
+        {
+            _forecastRepository = forecastRepository;
+        }
+
         public List<AvgDayForecastDTO> CalculateAvgTemps(List<DayForecast> list, string city)
         {          
             var avgMaxTemp = 0M;
@@ -38,6 +46,15 @@ namespace Get_5_Day_Forecast.Service
 
                 avgList.Add(new AvgDayForecastDTO
                 {
+                    City = city,
+                    Date = dateString,
+                    AvgMaxTemp = Math.Round(avgMaxTemp, 2),
+                    AvgMinTemp = Math.Round(avgMinTemp, 2)
+                });
+
+                _forecastRepository.SaveRequestedData(new AvgDayForecast
+                {
+                    ForecastId = Guid.NewGuid(),
                     City = city,
                     Date = dateString,
                     AvgMaxTemp = Math.Round(avgMaxTemp, 2),
