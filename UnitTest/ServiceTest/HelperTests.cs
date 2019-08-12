@@ -11,15 +11,21 @@ using System.IO;
 namespace UnitTest.ServiceTest
 {
     [TestClass]
-    public class ServiceTests
+    public class HelperTests
     {
-        [TestMethod]
-        public void TestIsValidZip()
+        Helper helper;
+
+        [TestInitialize]
+        public void TestInit()
         {
             var mock = new Mock<IForecastRepository>();
             mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
-            var helper = new Helper(mock.Object);
+            helper = new Helper(mock.Object);
+        }
 
+        [TestMethod]
+        public void TestIsValidZip()
+        {
             var isValid = helper.IsValidZip("80202");
             Assert.IsTrue(isValid);
 
@@ -30,10 +36,6 @@ namespace UnitTest.ServiceTest
         [TestMethod]
         public void TestIsValidCity()
         {
-            var mock = new Mock<IForecastRepository>();
-            mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
-            var helper = new Helper(mock.Object);
-
             var isValid = helper.IsValidCity("Miami-Dade");
             Assert.IsTrue(isValid);
 
@@ -42,11 +44,25 @@ namespace UnitTest.ServiceTest
         }
 
         [TestMethod]
+        public void TestRetrieveDataFromXML()
+        {
+            var index = Environment.CurrentDirectory.IndexOf("UnitTest");
+            var currentDirectory = Environment.CurrentDirectory.Substring(0, index);
+            var path = Path.Combine(currentDirectory, @"UnitTest\\TestFiles\\WeatherData.xml");
+            var weatherData = XElement.Load(path);
+
+            var list = helper.RetrieveDataFromXML(weatherData.ToString());
+
+            Assert.AreEqual(3, list.Count);
+
+            Assert.AreEqual(7, Convert.ToDateTime(list[2].Date).Day);
+            Assert.AreEqual(70.29M, list[2].MaxTemp);
+            Assert.AreEqual(68.34M, list[2].MinTemp);
+        }
+
+        [TestMethod]
         public void TestCalculateAvgTemps()
         {
-            var mock = new Mock<IForecastRepository>();
-            mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
-
             var list = new List<DayForecast>();
             list.Add(new DayForecast
             {
@@ -72,37 +88,12 @@ namespace UnitTest.ServiceTest
                 MinTemp = 65M
             });
 
-            var helper = new Helper(mock.Object);
             var calcAvgTemp = helper.CalculateAvgTemps(list, "SomeCity");
 
             Assert.AreEqual("SomeCity", calcAvgTemp[0].City);
             Assert.AreEqual(7, Convert.ToDateTime(calcAvgTemp[0].Date).Day);
             Assert.AreEqual(90M, calcAvgTemp[0].AvgMaxTemp);
             Assert.AreEqual(60M, calcAvgTemp[0].AvgMinTemp);
-        }
-
-        [TestMethod]
-        public void TestRetrieveDataFromXML()
-        {
-            var mock = new Mock<IForecastRepository>();
-            mock.Setup(x => x.SaveRequestedData(It.IsAny<AvgDayForecast>()));
-            var helper = new Helper(mock.Object);
-
-            var index = Environment.CurrentDirectory.IndexOf("UnitTest");
-
-            var currentDirectory = Environment.CurrentDirectory.Substring(0, index);
-
-            var path = Path.Combine(currentDirectory, @"UnitTest\\TestFiles\\WeatherData.xml");
-
-            var weatherData = XElement.Load(path);
-
-            var list = helper.RetrieveDataFromXML(weatherData.ToString());
-
-            Assert.AreEqual(3, list.Count);
-
-            Assert.AreEqual(7, Convert.ToDateTime(list[2].Date).Day);
-            Assert.AreEqual(70.29M, list[2].MaxTemp);
-            Assert.AreEqual(68.34M, list[2].MinTemp);
         }
     }
 }
