@@ -136,7 +136,7 @@ namespace Get_5_Day_Forecast.Service
                     AvgMinTemp = Math.Round(avgMinTemp, 2)
                 });
 
-                //Store requested to Database.
+                //Store requested data to Database.
                 _forecastRepository.SaveRequestedData(new AvgDayForecast
                 {
                     ForecastId = Guid.NewGuid(),

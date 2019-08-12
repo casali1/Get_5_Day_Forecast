@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Get_5_Day_Forecast.Model;
 using Get_5_Day_Forecast.Service;
 
 namespace Get_5_Day_Forecast.Controllers
