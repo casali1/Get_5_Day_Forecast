@@ -48,7 +48,8 @@ namespace Get_5_Day_Forecast.Controllers
                     var list = _helper.RetrieveDataFromXML(weatherXML_Doc);
                     var avgTempList = _helper.CalculateAvgTemps(list, input);
 
-                    return CreatedAtAction(nameof(input), avgTempList);
+                    //return CreatedAtAction(nameof(input), avgTempList); <-------Use for POST.
+                    return Ok(avgTempList);
                 }
                 catch (Exception e)
                 {

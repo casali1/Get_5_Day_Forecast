@@ -63,6 +63,20 @@ namespace UnitTest.ServiceTest
         [TestMethod]
         public void TestCalculateAvgTemps()
         {
+            var get_3_WeatherForecast_Data_Points = Get_3_WeatherForecast_Data_Points();
+
+            var calcAvgTemp = helper.CalculateAvgTemps(get_3_WeatherForecast_Data_Points, "SomeCity");
+
+            Assert.AreEqual("SomeCity", calcAvgTemp[0].City);
+            Assert.AreEqual(7, Convert.ToDateTime(calcAvgTemp[0].Date).Day);
+            Assert.AreEqual(90M, calcAvgTemp[0].AvgMaxTemp);
+            Assert.AreEqual(60M, calcAvgTemp[0].AvgMinTemp);
+        }
+
+        #region Helper Functions
+
+        private List<DayForecast> Get_3_WeatherForecast_Data_Points()
+        {
             var list = new List<DayForecast>();
             list.Add(new DayForecast
             {
@@ -88,12 +102,9 @@ namespace UnitTest.ServiceTest
                 MinTemp = 65M
             });
 
-            var calcAvgTemp = helper.CalculateAvgTemps(list, "SomeCity");
-
-            Assert.AreEqual("SomeCity", calcAvgTemp[0].City);
-            Assert.AreEqual(7, Convert.ToDateTime(calcAvgTemp[0].Date).Day);
-            Assert.AreEqual(90M, calcAvgTemp[0].AvgMaxTemp);
-            Assert.AreEqual(60M, calcAvgTemp[0].AvgMinTemp);
+            return list;
         }
+
+        #endregion
     }
 }
