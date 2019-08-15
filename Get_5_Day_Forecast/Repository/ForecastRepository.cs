@@ -1,4 +1,6 @@
 ﻿using Get_5_Day_Forecast.Model;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Get_5_Day_Forecast.Repository
 {
@@ -15,6 +17,19 @@ namespace Get_5_Day_Forecast.Repository
         {
             _weatherContext.AvgDayForecasts.Add(avgDayForecast);
             _weatherContext.SaveChanges();
+        }
+
+        public void RemoveWeatherDataByCity(string city)
+        {
+            var isCityInTable = _weatherContext.AvgDayForecasts.Where(x => x.City.ToLower() == city.ToLower()).ToList();
+
+            if (isCityInTable != null) _weatherContext.Remove(isCityInTable);
+        }
+
+        public List<AvgDayForecast> GetWeatherDataByCity(string city)
+        {
+            return _weatherContext.AvgDayForecasts.Where(x => x.City.ToLower() == city.ToLower()).ToList();
+
         }
     }
 }

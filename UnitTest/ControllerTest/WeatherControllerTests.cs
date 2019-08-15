@@ -23,7 +23,7 @@ namespace UnitTest.ControllerTest
 
             var controller = new WeatherController(mock.Object);
 
-            var result = await controller.Input("Denver");
+            var result = await controller.GetWeatherData("Denver");
 
             var aaa = result.GetType();
 
