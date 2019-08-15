@@ -149,5 +149,9 @@ namespace Get_5_Day_Forecast.Service
 
             return avgList;
         }
+
+        #region HelperFunctions
+
+        #endregion
     }
 }

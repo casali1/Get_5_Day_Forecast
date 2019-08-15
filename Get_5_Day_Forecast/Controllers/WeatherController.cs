@@ -19,7 +19,7 @@ namespace Get_5_Day_Forecast.Controllers
         }
 
         [HttpGet("{input}")]
-        public async Task<ActionResult> Get(string input)
+        public async Task<ActionResult> GetWeatherData(string input)
         {
             using (var client = new HttpClient())
             {
