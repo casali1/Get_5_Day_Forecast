@@ -18,8 +18,8 @@ namespace Get_5_Day_Forecast.Controllers
             _helper = helper;
         }
 
-        [Route("{input}")]
-        public async Task<ActionResult> Input(string input)
+        [HttpGet("{input}")]
+        public async Task<ActionResult> Get(string input)
         {
             using (var client = new HttpClient())
             {
