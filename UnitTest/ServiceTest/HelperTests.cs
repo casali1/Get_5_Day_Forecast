@@ -73,9 +73,20 @@ namespace UnitTest.ServiceTest
             Assert.AreEqual(60M, calcAvgTemp[0].AvgMinTemp);
         }
 
-        #region Helper Functions
 
-        private List<DayForecast> Get_3_WeatherForecast_Data_Points()
+        [TestMethod]
+        public void RemoveWeatherDataByCity()
+        {
+            //helper = new Helper();
+
+
+
+        }
+
+
+            #region Helper Functions
+
+            private List<DayForecast> Get_3_WeatherForecast_Data_Points()
         {
             var list = new List<DayForecast>();
             list.Add(new DayForecast

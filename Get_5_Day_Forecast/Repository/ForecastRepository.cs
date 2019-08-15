@@ -21,15 +21,19 @@ namespace Get_5_Day_Forecast.Repository
 
         public void RemoveWeatherDataByCity(string city)
         {
-            var isCityInTable = _weatherContext.AvgDayForecasts.Where(x => x.City.ToLower() == city.ToLower()).ToList();
+            var isCityInTable = new List<AvgDayForecast>();
+
+            if (!string.IsNullOrEmpty(city))
+            isCityInTable = _weatherContext.AvgDayForecasts.Where(x => x.City.ToLower() == city.ToLower()).ToList();
 
             if (isCityInTable != null) _weatherContext.Remove(isCityInTable);
         }
 
         public List<AvgDayForecast> GetWeatherDataByCity(string city)
         {
-            return _weatherContext.AvgDayForecasts.Where(x => x.City.ToLower() == city.ToLower()).ToList();
+            if (!string.IsNullOrEmpty(city)) return _weatherContext.AvgDayForecasts.Where(x => x.City.ToLower() == city.ToLower()).ToList();
 
+            return new List<AvgDayForecast>();
         }
     }
 }

@@ -101,7 +101,7 @@ namespace Get_5_Day_Forecast.Service
         }
 
         public List<AvgDayForecastDTO> CalculateAvgTemps(List<DayForecast> list, string city)
-        {          
+        {
             var avgMaxTemp = 0M;
             var avgMinTemp = 0M;
             var totalMax = 0M;
@@ -148,6 +148,16 @@ namespace Get_5_Day_Forecast.Service
             }
 
             return avgList;
+        }
+
+        public void RemoveWeatherDataByCity(string city)
+        {
+            _forecastRepository.RemoveWeatherDataByCity(city);
+        }
+
+        public List<AvgDayForecast> GetWeatherDataByCity(string city)
+        {
+            return _forecastRepository.GetWeatherDataByCity(city);
         }
 
         #region HelperFunctions
