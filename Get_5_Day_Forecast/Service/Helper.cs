@@ -125,15 +125,15 @@ namespace Get_5_Day_Forecast.Service
                     dateString = record.Date.Date.ToString();
                 }
 
-                avgMaxTemp = totalMax / tempCount;
-                avgMinTemp = totalMIn / tempCount;
+                avgMaxTemp = Math.Round(totalMax / tempCount);
+                avgMinTemp = Math.Round(totalMIn / tempCount);
 
                 avgList.Add(new AvgDayForecastDTO
                 {
                     City = city,
                     Date = dateString,
-                    AvgMaxTemp = Math.Round(avgMaxTemp, 2),
-                    AvgMinTemp = Math.Round(avgMinTemp, 2)
+                    AvgMaxTemp = avgMaxTemp,
+                    AvgMinTemp = avgMinTemp
                 });
 
                 //Store requested data to Database.
@@ -142,8 +142,8 @@ namespace Get_5_Day_Forecast.Service
                     ForecastId = Guid.NewGuid(),
                     City = city,
                     Date = dateString,
-                    AvgMaxTemp = Math.Round(avgMaxTemp, 2),
-                    AvgMinTemp = Math.Round(avgMinTemp, 2)
+                    AvgMaxTemp = avgMaxTemp,
+                    AvgMinTemp = avgMinTemp
                 });
             }
 
