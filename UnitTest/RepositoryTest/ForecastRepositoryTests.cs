@@ -19,7 +19,7 @@ namespace UnitTest.RepositoryTest
             _weatherContext = weatherContext;
         }
 
-        [TestMethod]
+
         public void DeleteRowsOfDataByCity()
         {
 
