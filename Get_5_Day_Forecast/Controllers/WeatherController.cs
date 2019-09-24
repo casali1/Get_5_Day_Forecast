@@ -27,11 +27,12 @@ namespace Get_5_Day_Forecast.Controllers
                 {
                     client.BaseAddress = new Uri(OpenWeatherURL);
 
-                    var isValidZip = _helper.IsValidZip(input);
-                    var isValidCity = _helper.IsValidCity(input);
+                    var isValidZip = _helper.IsValidZip(input); //Validate the Zip Code if entered.
+                    var isValidCity = _helper.IsValidCity(input); //Validate the City if entered.
 
                     var response = new HttpResponseMessage();
 
+                    //Consuming the end points of the OpenWeather.
                     if (isValidZip)
                         response = await client.GetAsync($"/data/2.5/forecast?zip={input}&mode=xml&appid=f99e1e3ccd770a8a43db5680342edd6a&units=imperial&days=5");
 
